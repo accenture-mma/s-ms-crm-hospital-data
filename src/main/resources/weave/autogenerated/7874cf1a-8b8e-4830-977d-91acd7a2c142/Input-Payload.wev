@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_7874cf1a_8b8e_4830_977d_91acd7a2c142_Input_Payload = Array<{|  Id: String,   "Hospital Id": String,   "Hospital Name": String|}>
+

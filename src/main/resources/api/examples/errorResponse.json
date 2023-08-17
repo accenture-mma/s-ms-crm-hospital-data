@@ -1,0 +1,8 @@
+{
+    "status" : "<http status>",
+    "description" : "<only if status != 200>",
+    "messageType": "hospitalData",
+    "success" : "true/false",
+    "errorCode" : "<from system>",
+    "errorDescription" : "<from system>"
+}

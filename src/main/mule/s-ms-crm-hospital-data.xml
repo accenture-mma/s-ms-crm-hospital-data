@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+  	<flow name="s-ms-crm-hospital-data-main">
+        <http:listener config-ref="s-ms-crm-hospital-data-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="s-ms-crm-hospital-data-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="s-ms-crm-hospital-data-console">
+        <http:listener config-ref="s-ms-crm-hospital-data-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="s-ms-crm-hospital-data-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="get:\getBedAvailableList:s-ms-crm-hospital-data-config">
+		<logger level="INFO" doc:name="Logger" doc:id="de17a330-186f-4957-977e-d62e6449a890" message='#["Flow started"]'/>
+		<set-variable value="#[attributes.queryParams.hospital_name]" doc:name="Set Variable" doc:id="fd59f95d-421b-4e51-b05d-057679d3d37f" variableName="hospital_name" />
+		<flow-ref doc:name="Flow Reference" doc:id="d5b11983-c132-444c-a24b-240e0519a42f" name="get-bed-available-dataSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="90e80bd7-eb74-4564-9519-2629b40fb467" message='#["Data retreived successfully"]'/>
+    </flow>
+    <flow name="get:\getHospitalList:s-ms-crm-hospital-data-config">
+		<logger level="INFO" doc:name="Logger" doc:id="81fd0d15-bef7-4fe8-b93f-d862039ca21e" message='#["flow started"]'/>
+		<flow-ref doc:name="Flow Reference" doc:id="982f4da1-0515-453d-87b0-af293405955e" name="get-hospital-list-dataSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="38c257d1-873e-4039-998e-966086dcfed2" message='#["Data retreived successfully"]'/>
+    </flow>
+    <flow name="post:\createHospitalData:application\json:s-ms-crm-hospital-data-config">
+        <logger level="INFO" doc:name="Logger" doc:id="04722af0-be10-4c6c-8757-31974de342ec" />
+		<flow-ref doc:name="Flow Reference" doc:id="a02b17c2-884c-4bbb-a3c7-515e0ea53928" name="post-hospital-dataSub_Flow"/>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "200",
+  message: "Hospital Registration Successfully",
+  success: "true"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="0925e6bf-b905-494d-aad2-d8dbe5788fe3" message='#["Data inserted successfully"]'/>
+    </flow>
+    <flow name="post:\createPharmacyData:application\json:s-ms-crm-hospital-data-config">
+		<logger level="INFO" doc:name="Logger" doc:id="c8ec1d0d-f246-4751-8f29-35c7fc6235ba" />
+		<flow-ref doc:name="Flow Reference" doc:id="2e1bcd81-42c9-477a-bcc9-8bc035bdfa95" name="post-pharmacy-dataSub_Flow"/>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "200",
+  message: "Pharmacy Information Inserted Successfully",
+  success: "true"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="4fe67ad0-b292-435f-97b2-f62ac7c67a09" message='#["Data inserted successfully"]'/>
+    </flow>
+    <flow name="post:\updateBedData:application\json:s-ms-crm-hospital-data-config">
+        <logger level="INFO" doc:name="Logger" doc:id="082a1875-f610-4eb0-b4d4-c39879db3eb9" />
+		<flow-ref doc:name="Flow Reference" doc:id="afd8c645-5ec3-43b9-9744-7e35fff67b0e" name="post-bed-dataSub_Flow"/>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "200",
+  message: "Bed Information Updated Successfully",
+  success: "true"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="adc64c8d-433a-46d0-a4f9-ef8b3a0d1154" message='#["Data Updated successfully"]'/>
+    </flow>
+     <flow name="post:\createDoctorData:application\json:s-ms-crm-hospital-data-config">
+        <logger level="INFO" doc:name="Logger" doc:id="db3f428b-4677-4d3b-8fdf-43bd01e08b3f" />
+		<flow-ref doc:name="Flow Reference" doc:id="0699c635-3bdd-4a3c-8969-66afc1215375" name="post-doctor-dataSub_Flow"/>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "200",
+  message: "Doctor Information Updated Successfully",
+  success: "true"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="446cdfc3-f791-4dce-afd3-40c759bc50da" message='#["Data Updated successfully"]'/>
+    </flow>
+</mule>

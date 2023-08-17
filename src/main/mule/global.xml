@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	  <http:listener-config name="s-ms-crm-hospital-data-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+     <apikit:config name="s-ms-crm-hospital-data-config" api="resource::92c38b33-c941-42cb-abb0-6e0da6122ce0:s-ms-crm-hospital-data:1.0.1:raml:zip:s-ms-crm-hospital-data.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+             <api-gateway:autodiscovery apiId="18847757" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="8099a0e7-c718-4477-a9d7-7b954d9b7181" flowRef="s-ms-crm-hospital-data-main" />
+   	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="0116f8d8-551c-4241-9b9b-f03aea87950f" >
+		<salesforce:basic-connection username="shreya.d.tiwari-4bq7@force.com" password="${secure::salesforce.password}" securityToken="${secure::salesforce.token}" />
+	</salesforce:sfdc-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="42c42005-c3e6-453c-9f22-d3f854238830" file="properties/${mule.env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="55f46452-142a-4148-bcc7-ead19fb916c8" file="properties/${mule.env}.yaml" key="${mule.secureKey}" />
+</mule>

@@ -1,0 +1,72 @@
+[
+    {
+        "Id": "a2K5j000000oiCuEAI",
+        "Hospital Id": "BAN092",
+        "Hospital Name": "Aster CMI Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiCvEAI",
+        "Hospital Id": "BAN003",
+        "Hospital Name": "KC General Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiD4EAI",
+        "Hospital Id": "BAN010",
+        "Hospital Name": "Suguna Hospital"
+    },
+    {
+        "Id": "a2K5j000000oi8SEAQ",
+        "Hospital Id": "BAN038",
+        "Hospital Name": "Sir C V Raman General Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiCkEAI",
+        "Hospital Id": "BAN002",
+        "Hospital Name": "Bangalore Medical college"
+    },
+    {
+        "Id": "a2K5j000000oiD9EAI",
+        "Hospital Id": "HOS123",
+        "Hospital Name": "Jayashree Multispeciality Hospital 25"
+    },
+    {
+        "Id": "a2K5j000000oi8NEAQ",
+        "Hospital Id": "BAN043",
+        "Hospital Name": "Specialist Hospital"
+    },
+    {
+        "Id": "a2K5j000000oi8IEAQ",
+        "Hospital Id": "BAN034",
+        "Hospital Name": "Appolo Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiCfEAI",
+        "Hospital Id": "BAN024",
+        "Hospital Name": "Manipal Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiCzEAI",
+        "Hospital Id": "BAN036",
+        "Hospital Name": "KR Puram General Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiCpEAI",
+        "Hospital Id": "BAN025",
+        "Hospital Name": "Fortis Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiHMEAY",
+        "Hospital Id": "HOS321",
+        "Hospital Name": "Manipal Hospital Hebbal"
+    },
+    {
+        "Id": "a2K5j000000oiHWEAY",
+        "Hospital Id": "HOS33333",
+        "Hospital Name": "Columbia Asia Hospital"
+    },
+    {
+        "Id": "a2K5j000000oiHREAY",
+        "Hospital Id": "HOS32133",
+        "Hospital Name": "Sakra World Hospital"
+    }
+]

@@ -1,0 +1,150 @@
+#%RAML 1.0
+title: s-ms-crm-hospital-data
+description: System API Hospital Data
+version: 1.0
+
+securitySchemes:
+  client_id_enforcement: !include security/securityScheme.raml
+
+/createHospitalData:
+    securedBy:
+      client_id_enforcement
+    description: "creates Hospital related data"
+    post:
+     body:
+          application/json:
+            examples:
+              input: !include examples/createHospitalData.json
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/HospitalDataSuccessResponse.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json
+
+/updateBedData:
+    securedBy:
+        client_id_enforcement
+    description: "updates bed availablity related data" 
+    post:
+     body:
+          application/json:
+            examples:
+              input: !include examples/updateBedData.json
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/BedDataSuccessResponse.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json
+
+/createPharmacyData:
+    securedBy:
+        client_id_enforcement
+    description: "creates pharmacy related data" 
+    post:
+     body:
+          application/json:
+            examples:
+              input: !include examples/createPharmacyData.json
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/PharmacyDataSuccessResponse.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json
+              
+/createDoctorData:
+    securedBy:
+      client_id_enforcement
+    description: "creates Doctor related data"
+    post:
+     body:
+          application/json:
+            examples:
+              input: !include examples/createDoctorData.json
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/DoctorDataSuccessResponse.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json
+
+/getHospitalList:
+    securedBy:
+        client_id_enforcement
+    description: "returns Hospital related data"
+    get:
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/HospitalList.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json
+/getBedAvailableList:
+    securedBy:
+        client_id_enforcement
+    description: "returns Bed Availability related data"
+    get:
+     description: "returns specific bed availablity related data based on hospital name"
+     queryParameters:
+        hospital_name:
+            description: "the hospital name to be searched"
+            required: true
+            minLength: 5
+            type: string
+            example: "Aster CMI Hospital"
+     responses:
+      200:
+        description: Success Response message
+        body:
+          application/json:
+            examples:
+              output: !include examples/BedAvailableList.json
+
+      500: 
+        description: Error server
+        body:
+          application/json:
+            examples:
+              output: !include examples/errorResponse.json

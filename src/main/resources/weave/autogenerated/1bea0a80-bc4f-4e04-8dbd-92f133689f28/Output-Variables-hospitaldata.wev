@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_1bea0a80_bc4f_4e04_8dbd_92f133689f28_Output_Variables_hospitaldata = {|
+  Id?: String {"typeId": "Id"}, 
+  Name?: String {"typeId": "Name"}, 
+  totalGeneralBedswith02__c?: Number {"typeId": "totalGeneralBedswith02__c"}, 
+  totalGeneralBedswithoutO2__c?: Number {"typeId": "totalGeneralBedswithoutO2__c"}, 
+  totalICUBeds__c?: Number {"typeId": "totalICUBeds__c"}, 
+  totalNICUBeds__c?: Number {"typeId": "totalNICUBeds__c"}, 
+  totalVentilatorBeds__c?: Number {"typeId": "totalVentilatorBeds__c"}
+|} {"label": "Hospital",
+"typeId": "Hospital__c"}
+

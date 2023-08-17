@@ -1,0 +1,10 @@
+[{
+    "Doctor_Name": "Ram Saini",
+    "Availability": "Monday;Tuesday",
+    "Gender": "Male",
+    "Hospital_Name": "People Tree Hospital",
+    "Hospital_Id" : "BAN022",
+    "In_Time": "10:00:00.000Z",
+    "Out_Time": "15:00:00.000Z",
+    "Specialization": "Neurologist"
+}]

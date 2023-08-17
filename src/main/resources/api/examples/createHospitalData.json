@@ -1,0 +1,15 @@
+[
+  {
+    "hospital_Id": "HOS123",
+    "hospital_type": "Private",
+    "hospital_name": "Jayashree Multispeciality Hospital 25",
+    "city": "Bangalore",
+    "area": "Kalyan Nagar",
+    "state": "Karnataka",
+    "totalGeneralBedswith02": 10,
+    "totalGeneralBedswithoutO2": 30,
+    "totalICUBeds": 10,
+    "totalNICUBeds": 10,
+    "totalVentilatorBeds": 8
+  }
+]

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="get-bed-available-dataSub_Flow" doc:id="6c0e2c47-194a-4730-8073-44dd3e93411b" >
+		<salesforce:query doc:name="Query" doc:id="2eecfb18-3503-431d-9da9-b0a608b2a0a5" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[Select Id,Hospital_Id__c,Hospital_Name__c,General_Beds_with_02_Available__c,General_Beds_without_02_Available__c,ICU_Beds_Available__c,NICU_Beds_Available__c,Ventilator_Beds_Available__c from BedData__c WHERE Hospital_Name__c=':hospitalName']]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"hospitalName" : vars.hospital_name
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="b92f60ac-35ce-4b94-b4b9-a0d49862b571">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (value,key) -> {
+	 "Id": value.Id,
+	 "Hospital Id": value.Hospital_Id__c,
+     "Hospital Name" : value.Hospital_Name__c,
+     "General Beds with 02 Available": value.General_Beds_with_02_Available__c,
+     "General Beds without 02 Available": value.General_Beds_without_02_Available__c,
+     "ICU Beds Available": value.ICU_Beds_Available__c,
+     "NICU Beds Available": value.NICU_Beds_Available__c,
+     "Ventilator Beds Available": value.Ventilator_Beds_Available__c
+  }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

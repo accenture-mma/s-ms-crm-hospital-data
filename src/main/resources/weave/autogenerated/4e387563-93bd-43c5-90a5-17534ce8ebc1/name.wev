@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_4e387563_93bd_43c5_90a5_17534ce8ebc1_Output_Variables_hospital_name = Any
+

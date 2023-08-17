@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="post-bed-dataSub_Flow" doc:id="1bea0a80-bc4f-4e04-8dbd-92f133689f28" >
+		<ee:transform doc:name="Transform Message" doc:id="cacb3bdd-9c55-4470-a68a-2781f4962579">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java 
+---
+payload map (value,key) -> {
+	Hospital_Id__c: value.Hospital_Id,
+	Hospital_Name__c: value.Hospital_Name,
+	Branch_Name__c: value.Branch_Name,
+	("General_Beds_without_02_Available__c": value.General_Beds_without_02_Available) if(value.General_Beds_without_02_Available !=null),
+	("General_beds_without_O2_occupied__c": value.General_beds_without_O2_occupied) if(value.General_beds_without_O2_occupied !=null),
+	("General_Beds_with_02_Available__c": value.General_Beds_with_02_Available) if(value.General_Beds_with_02_Available !=null),
+	("general_Beds_with_02_Occupied__c" : value.general_Beds_with_02_Occupied) if(value.general_Beds_with_02_Occupied !=null),
+	("ICU_Beds_Available__c": value.ICU_Beds_Available) if(value.ICU_Beds_Available !=null),
+	("ICU_Beds_Occupied__c": value.ICU_Beds_Occupied) if(value.ICU_Beds_Occupied !=null),
+	("NICU_Beds_Available__c": value.NICU_Beds_Available) if(value.NICU_Beds_Available !=null),
+	("NICU_Beds_Occupied__c": value.NICU_Beds_Occupied) if(value.NICU_Beds_Occupied !=null),
+	("Ventilator_Beds_Available__c": value.Ventilator_Beds_Available) if(value.Ventilator_Beds_Available !=null),
+	("Ventilator_beds_occupied__c": value.Ventilator_beds_occupied) if(value.Ventilator_beds_occupied !=null)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert doc:name="Upsert" doc:id="35b4e55e-a76c-4108-8cc7-627483acb892" config-ref="Salesforce_Config" objectType="BedData__c" externalIdFieldName="Hospital_Id__c" />
+		<ee:transform doc:name="Transform Message" doc:id="1656da60-1df4-4e51-bbcf-e59bb95c107b">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	
+	</sub-flow>
+</mule>

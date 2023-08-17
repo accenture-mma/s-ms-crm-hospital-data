@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="post-doctor-dataSub_Flow" doc:id="4e387563-93bd-43c5-90a5-17534ce8ebc1" >
+		<ee:transform doc:name="Transform Message" doc:id="e73fd738-8952-42de-9c9f-5079d551c93c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload map (value,key) -> {
+	Hospital_Id__c: value.hospital_Id,
+	Hospital_Name__c: value.hospital_name,
+	Branch_Name__c: value.branch_name,
+	Name: value.doctor_name,
+	Doctor_Id__c: value.doctor_Id,
+	Gender__c: value.gender,
+	Availability__c: value.availability,
+	(In_Time__c: value.In_Time as String {format: 'HH:mm:ss.sssZ'}) if (value.In_Time !=null) ,
+	(Out_Time__c: value.Out_Time as String {format: 'HH:mm:ss.sssZ'}) if(value.Out_Time !=null) ,
+	Specialization__c: value.Specialization	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert objectType="DoctorData__c" doc:name="Upsert" doc:id="0eeedb59-75f1-4c43-a7a6-14b61f0b2478" config-ref="Salesforce_Config" externalIdFieldName="Doctor_Id__c"/>
+		<ee:transform doc:name="Transform Message" doc:id="4581e12a-6258-4f64-8325-420a9cf420aa">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

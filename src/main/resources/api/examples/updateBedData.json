@@ -1,0 +1,10 @@
+[
+    {
+        "hospital_name": "Jayashree Multispeciality Hospital 25",
+        "General_beds_without_O2_occupied": 10,
+        "general_Beds_with_02_Occupied": 30,
+        "ICU_Beds_Occupied": 10,
+        "NICU_Beds_Occupied": 10,
+        "Ventilator_beds_occupied": 8
+    }
+]

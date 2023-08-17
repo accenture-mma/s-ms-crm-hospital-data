@@ -1,0 +1,11 @@
+%dw 2.0
+
+type auto_a94244ac_1e65_41ed_9355_680afb6dc189_Output_Variables_hospitalId = Array<Hospital__c>
+type Hospital__c = {|
+  Id?: String {"typeId": "Id"}, 
+  Name?: String {"typeId": "Name"}
+|} {"label": "Hospital",
+"typeId": "Hospital__c"}
+
+
+

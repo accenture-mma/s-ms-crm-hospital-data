@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="post-pharmacy-dataSub_Flow" doc:id="a94244ac-1e65-41ed-9355-680afb6dc189" >
+		<ee:transform doc:name="Transform Message" doc:id="fe21dc2a-719a-4ddd-9b9c-1624ce64e679">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload map (value,key) -> {
+	Hospital_Id__c: value.hospital_id,
+	Hospital_Name__c: value.hospital_name,
+	Branch_Name__c: value.branch_name,
+	City__c: value.city,
+	Location__c: value.location,
+	State__c: value.state,
+	PharmacyId__c: value.pharmacy_Id,
+	Medicine_Name__c: value.medicine_name,
+	Discount__c: value.discount,
+	Vendor_Name__c: value.vendor_name,
+	MRP__c: value.MRP,
+	Selling_Price__c: value.selling_price,
+	Quantity__c: value.quantity,
+	Total_Price__c: value.total_price,
+	Purchase_Date__c: value.purchase_date as Date {format: 'dd/MM/yyyy'}
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create doc:name="Create" doc:id="a0a6f763-94d6-4605-9814-b262c552d710" config-ref="Salesforce_Config" type="PharmacyData__c" />
+		<ee:transform doc:name="Transform Message" doc:id="fd588181-6a3d-44f4-9f15-6740870d80e3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

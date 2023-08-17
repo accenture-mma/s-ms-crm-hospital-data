@@ -1,0 +1,15 @@
+[
+  {
+    "hospital_name": "Appolo Hospital",
+    "city": "Bangalore",
+    "location": "Kalyan Nagar",
+    "state": "Karnataka",
+    "pharmacy_Id": "PH001",
+    "medicine_name": "Napra D 250",
+    "discount": 10,
+    "vendor_name": "Pharmeasy",
+    "MRP": 80,
+    "selling_price": 72,
+    "purchase_date": "23/12/2023"
+  }
+]
